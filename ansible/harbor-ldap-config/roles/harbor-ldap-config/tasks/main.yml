@@ -1,0 +1,44 @@
+---
+- name: Set Fact - Harbor LDAP Configuration JSON
+  ansible.builtin.set_fact:
+    harbor_ldap_config_json: "{{ lookup('template', 'harbor_ldap_config.json.j2') }}"
+
+- name: Print Harbor LDAP Desired Configuration JSON
+  ansible.builtin.debug:
+    var: harbor_ldap_config_json
+
+- name: Configure Harbor LDAP Authentication
+  ansible.builtin.uri:
+    url: "https://{{ harbor_hostname }}/api/v2.0/configurations"
+    validate_certs: false
+    force_basic_auth: true
+    url_username: "{{ harbor_username }}"
+    url_password: "{{ harbor_password }}"
+    method: PUT
+    status_code: 200
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    body_format: json
+    body: "{{ harbor_ldap_config_json }}"
+
+- name: Test Harbor LDAP Connection
+  ansible.builtin.uri:
+    url: "https://{{ harbor_hostname }}/api/v2.0/ldap/ping"
+    validate_certs: false
+    force_basic_auth: true
+    url_username: "{{ harbor_username }}"
+    url_password: "{{ harbor_password }}"
+    method: POST
+    status_code: 200
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    body_format: json
+    body: "{{ harbor_ldap_config_json }}"
+    return_content: true
+  register: harbor_ldap_test_result
+
+- name: Print Test Harbor LDAP Connection Results
+  ansible.builtin.debug:
+    var: harbor_ldap_test_result.json

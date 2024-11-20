@@ -1,0 +1,53 @@
+# Secret containing the CA certificate(s) for LDAPS
+caBundleSecretName: ca-cert
+
+# Admin password
+harborAdminPassword: Kubernetes1!
+
+# Ingress configuration
+expose:
+  type: ingress
+  tls:
+    enabled: true
+    certSource: secret
+    secret:
+      secretName: harbor-ingress-tls
+      notarySecretName: notary-ingress-tls
+  ingress:
+    className: nginx
+    hosts:
+      core: harbor.cloudnativeapps.cloud
+      notary: notary.cloudnativeapps.cloud
+    annotations:
+      kubernetes.io/ingress.allow-http: "false"
+      ingress.kubernetes.io/force-ssl-redirect: "true"
+
+# Persistent storage configuration
+persistence:
+  enabled: true
+  persistentVolumeClaim:
+    registry:
+      storageClass: ""
+      size: 150Gi
+    chartmuseum:
+      storageClass: ""
+      size: 10Gi
+    jobservice:
+      storageClass: ""
+      size: 10Gi
+    database:
+      storageClass: ""
+      size: 10Gi
+    redis:
+      storageClass: ""
+      size: 10Gi
+    trivy:
+      storageClass: ""
+      size: 10Gi
+
+# Metrics
+metrics:
+  enabled: true
+  # Service monitor requires Prometheus Operator on the cluster
+  serviceMonitor:
+    enabled: true

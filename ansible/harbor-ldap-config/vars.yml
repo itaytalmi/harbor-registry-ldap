@@ -1,0 +1,20 @@
+# Harbor authentication
+harbor_hostname: harbor.cloudnativeapps.cloud
+harbor_username: admin
+harbor_password: Kubernetes1!
+
+# LDAP configuration
+ldap_url: ldaps://cloudnativeapps.cloud:636
+ldap_search_dn: CN=k8s-ldaps,OU=ServiceAccounts,OU=cloudnativeapps,DC=cloudnativeapps,DC=cloud
+ldap_search_password: Kubernetes1!
+ldap_base_dn: DC=cloudnativeapps,DC=cloud
+ldap_filter: objectclass=person
+ldap_uid: sAMAccountName
+ldap_scope: 2 # Subtree
+ldap_group_base_dn: DC=cloudnativeapps,DC=cloud
+ldap_group_search_filter: objectclass=group
+ldap_group_attribute_name: sAMAccountName
+ldap_group_admin_dn: CN=harbor-admins,OU=Groups,OU=cloudnativeapps,DC=cloudnativeapps,DC=cloud
+ldap_group_membership_attribute: memberof
+ldap_group_search_scope: 2 # Subtree
+ldap_verify_cert: true
