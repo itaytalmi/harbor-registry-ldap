@@ -1,0 +1,42 @@
+# Terraform files
+*.tfstate
+*.tfstate.*
+*.backup
+.terraform/
+.terraform.lock.hcl
+terraform.tfvars
+terraform.tfvars.json
+override.tf
+override.tf.json
+*.auto.tfvars
+*.auto.tfvars.json
+crash.log
+.plan
+*.tfplan
+# Ignore any sensitive information files
+secrets.tfvars
+
+# Ansible files
+*.retry
+*.vault
+*.vault.yml
+# Ignore specific configuration files or local files
+ansible.cfg
+inventory/
+inventory/*.ini
+inventory/*.yml
+# Ignore SSH keys or sensitive credentials
+*.pem
+*.key
+*.secrets
+# Ignore compiled or temporary files
+__pycache__/
+*.pyc
+*.pyo
+.cache/
+
+# General IDE and OS-specific files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
